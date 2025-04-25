@@ -1,0 +1,61 @@
+4/24 Nick - Heres what I did today so far
+-Added static/ folder for CSS and its input/output for Tailwind.
+-I think(?) I reinstalled Django since there was some weird error I had so I re-ran it
+-Updated settings.py for the static files and to look in the templates/ folder
+-Installed Tailwind, PostCSS & Autoprefixer
+^ Regarding tailwind, unless you can find a way to get it to fully initalize as Tailwind 4.0, I kept running into issues
+so I hand-created tailwind.config.js & postcss.config.js and built static/css/output.css via npx postcss.
+I actually had ChatGPT do the process for me since I had no clue how to initalize it otherwise, but you can find a 
+rundown in the TailWindExplanation.txt file I added.
+
+- Also added templates/base.html (loads output.css)
+
+- and created templates/home.html and updated app1/views.py + urls.py
+- I also ran makemigrations/migrate but we got no models yet
+- Launched server, confirmed “Welcome to MusicReviewer” styled by Tailwind that you can see in the templates/home.html
+
+I may have forgotten some stuff but this should be most of what I did for now.
+_______________________________________________________________________________________
+4/24 Kamrin - I restarted the project just to clean it up
+- I ran the command:
+	npm install tailwindcss @tailwindcss/cli
+- Added the import - @import "tailwindcss";
+- Created a script in package.json for watch:css
+- Created static folder in the root directory
+- Created css folder in static to hold input and output
+- Added browser auto refresh for any static changes (basically changes to css or html)
+___________________________________IMPORTANT___________________________________________
+- I had to restart the django project so your changes were lost
+- Tailwind is working correctly and to run the server, open 2 terminals and run each of
+the following commands:
+    1. npm run watch:css
+    2. python manage.py runserver
+- Leave the terminals running and make any edits on html or static files and the browser
+will automatically refresh, ctrl-c to stop
+
+- Any html files you create (that do not extend the base.html file) will need to have
+these 2 lines at the top:
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+
+- The rest below is just stuff that can help you understand the project structure
+
+- There are 2 template directories, one in the root directory and one under app1
+    - The one in the root directory is for the base.html file
+    - The one under app1 is for the home.html file (where we would put other pages)
+- The static folder is in the root directory and will hold our static files
+
+- Look at both html files in both template directories
+    - The base.html file is the main template that will be used for all pages
+    - The home.html file is the page that will be displayed when the server is running
+- We can use the {% block %} tag to define sections of the base.html file that can be overridden
+    - For example, the {% block content %} tag in the base.html file is where we can
+    put the content for each page
+    - The {% extends %} tag in the index.html file tells Django to use the base.html
+    file as the main template
+
+
+- The next thing I think to work on is fixing the base template to get it looking how we want
+and to contain a navbar and footer, I can work on it or if you get to it first let me know
+- Or you can work on a gameplan for implementing the music api, i will let you know what I work on next
+_______________________________________________________________________________________
