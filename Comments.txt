@@ -66,4 +66,17 @@ I also made a super suepr basic and shitty homepage layout with a search bar and
 In fact I will progress with that this week as well, also the Django package didnt seem to be initilaized properly so I fixed it lol all good
 We'll discuss more of this soon, hope to get most of the bulk done this week.
 
+_______________________________________________________________________________________
+4/28 Nick what i did today
+- made a review, contact, about .html pages
+- contact page well have it so it actually doesnt submit anything but seems like it does
+- ­included app1.urls in music/urls.py so all app routes resolve and work
+- the search results page for the "Write a Review" passes album title and artist dynamically through the urls
+- also updated views.py to handle dynamic album and artist data for the review page.
+- Next up is like making the home page look good and also adding a review model to store info, and also making user accounts
+I kind of forgot about that so far but is simple and can probably rip it from the chess board
+
+
+
+
 

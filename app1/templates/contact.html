@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - Music Reviewer{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Contact Us</h1>
+
+    {% if sent %}
+        <div class="bg-green-100 text-green-800 p-4 rounded mb-6">
+            Thank you! Your message has been sent.
+        </div>
+    {% else %}
+        <form method="POST" action="{% url 'contact' %}" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Name</label>
+                <input type="text" name="name" required 
+                       class="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Email (optional)</label>
+                <input type="email" name="email" 
+                       class="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Message</label>
+                <textarea name="message" required rows="5"
+                          class="w-full border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+            </div>
+
+            <button type="submit" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                Send
+            </button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

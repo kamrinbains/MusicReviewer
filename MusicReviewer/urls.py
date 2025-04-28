@@ -23,4 +23,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path("__reload__/", include("django_browser_reload.urls")),
     path('search/', views.search_discogs, name='search_discogs'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('review/', views.review, name='review'),
+    path('review/submit/', views.submit_review, name='submit_review'),
 ]
