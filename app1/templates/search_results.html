@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results - Music Reviewer{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto p-6">
+    <!-- Featured Albums Header -->
+    <section class="mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Featured Albums</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Example featured albums -->
+            <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-2">Album One</h2>
+                <p>Classic masterpiece of progressive rock.</p>
+            </div>
+            <div class="bg-gradient-to-r from-green-400 to-teal-500 text-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-2">Album Two</h2>
+                <p>Innovative sounds in modern metalcore.</p>
+            </div>
+            <div class="bg-gradient-to-r from-pink-400 to-red-500 text-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold mb-2">Album Three</h2>
+                <p>An emotional indie folk journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Form -->
+    <section class="mb-10">
+        <form method="GET" action="{% url 'search_discogs' %}" class="flex gap-2">
+            <input type="text" name="query" value="{{ query }}" placeholder="Search albums..." 
+                   class="flex-grow p-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <button type="submit" 
+                    class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                Search
+            </button>
+        </form>
+    </section>
+
+    <!-- Search Results -->
+    <section class="mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Results for "{{ query }}"</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for item in results %}
+                <div class="bg-white rounded-lg shadow hover:shadow-xl transition p-4 flex flex-col">
+                    {% if item.thumb %}
+                        <img src="{{ item.thumb }}" alt="{{ item.title }}" class="rounded mb-4">
+                    {% else %}
+                        <div class="bg-gray-200 h-48 rounded mb-4 flex items-center justify-center text-gray-500">
+                            No Image
+                        </div>
+                    {% endif %}
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">{{ item.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-2">{{ item.year|default:"Unknown Year" }}</p>
+                    <p class="text-gray-500 text-xs">{{ item.genre|join:", " }}</p>
+
+                    <!-- Review Button (Placeholder) -->
+                    <a href="#" 
+                       class="mt-auto bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg font-semibold mt-4 transition">
+                        Write a Review
+                    </a>
+                </div>
+            {% empty %}
+                <p>No results found. Try another search!</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

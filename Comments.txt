@@ -59,3 +59,11 @@ these 2 lines at the top:
 and to contain a navbar and footer, I can work on it or if you get to it first let me know
 - Or you can work on a gameplan for implementing the music api, i will let you know what I work on next
 _______________________________________________________________________________________
+4/27 Nick what I did
+so today (And 4/28) I added the user token for the Discogs API and incorporated it into the settings/views/urls page etc.
+Along with that I created and organized index.html (Home) and made the search_results.html page,
+I also made a super suepr basic and shitty homepage layout with a search bar and featured album section. but its scuffed asf and needs work,
+In fact I will progress with that this week as well, also the Django package didnt seem to be initilaized properly so I fixed it lol all good
+We'll discuss more of this soon, hope to get most of the bulk done this week.
+
+

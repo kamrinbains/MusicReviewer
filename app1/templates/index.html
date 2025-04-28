@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Home - My Django Site{% endblock %}
+{% block title %}Home - Music Reviewer{% endblock %}
 
 {% block content %}
 <div class="bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold text-gray-800 mb-4">Welcome to My Site</h1>
+    <h1 class="text-4xl font-bold text-gray-900 mb-6">Discover and Review Music</h1>
 
-    <p class="text-gray-600 mb-4">
-        This is my homepage content. Only this part changes between pages!
-    </p>
+    <form method="GET" action="{% url 'search_discogs' %}" class="mb-6">
+        <input type="text" name="query" placeholder="Search for an album..." class="border rounded p-2 w-full">
+        <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Search</button>
+    </form>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <div class="bg-blue-100 p-4 rounded">
-            <h2 class="font-semibold">Feature one</h2>
-            <p>Description of first feature</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-gray-100 p-4 rounded">
+            <h2 class="font-semibold text-xl">Top Reviews</h2>
+            <p>See what albums are trending right now.</p>
         </div>
 
-        <div class="bg-green-100 p-4 rounded">
-            <h2 class="font-semibold">Feature Two</h2>
-            <p>Description of second feature</p>
+        <div class="bg-gray-100 p-4 rounded">
+            <h2 class="font-semibold text-xl">Browse Genres</h2>
+            <p>Explore albums by your favorite genres.</p>
         </div>
     </div>
 </div>
