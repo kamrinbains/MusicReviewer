@@ -127,3 +127,6 @@ STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DISCOGS_TOKEN = 'qxGXsNAYYWpkdEHvlGdGmCsDmFtHUnjJIVaCRKpz'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/account/'
