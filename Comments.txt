@@ -75,8 +75,33 @@ ________________________________________________________________________________
 - also updated views.py to handle dynamic album and artist data for the review page.
 - Next up is like making the home page look good and also adding a review model to store info, and also making user accounts
 I kind of forgot about that so far but is simple and can probably rip it from the chess board
+_______________________________________________________________________________________
+4/29 Kamrin - 
+- Changed frontend styling mostly
+- Removed Review from the Navbar:
+	>I don't think it should be in the navbar as, for now, the only way to get an album there is by going to the search page, searching an album, then clicking review. It makes sense to have the review page in the navbar if you can search an album and click it from a list (while still on the review page)
+	>To add it back just add 
+		<a href="/review">Review</a>
+	to the base.html navbar component
+- Changed navbar layout and added account on the right hand side
+- For the navbar, I added a log in / account button, however they aren't linked to any pages. When we make the pages that specific part of the navbar will look something like this:
+	
+      {% if user.is_authenticated %}
+        <a href="{% url 'account' %}"
+           class="ml-4 px-3 py-1 bg-white text-blue-600 rounded hover:bg-gray-100">
+          Account
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}"
+           class="ml-4 px-3 py-1 bg-white text-blue-600 rounded hover:bg-gray-100">
+          Log In
+        </a>
 
 
+- I decided to use Ionicons for adding icons, such as the user icon on the navbar. Had me add a script on the bottom of the base.html template.
 
+- Also for the contact page, I can add the functionality for that and it shouldn't take me long. I just need an email to create an account. I might just make a bs gmail account for this, just think of a name for the website and I'll make the email after it
 
-
+- Need to make a login page and maybe account page for details on there account (if they want to change their email or password for example)
+- Need to create the model for users in Django and then brainstorm how we want to save reviews and display them to other users
+_______________________________________________________________________________________

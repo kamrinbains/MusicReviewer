@@ -15,7 +15,7 @@ def contact(request):
     return render(request, 'contact.html', {'sent': False}) 
 
 def about(request):
-    return render(request, 'about.html')  
+    return render(request, 'about.html')
 
 def review(request):
     # your GET-render logic here
@@ -55,5 +55,3 @@ def search_discogs(request):
             results = data.get('results', [])
 
     return render(request, 'search_results.html', {'results': results, 'query': query})
-
-    return render(request, 'about.html')

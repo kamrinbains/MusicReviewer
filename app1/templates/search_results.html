@@ -25,10 +25,10 @@
     </section>
 
     <!-- Search Form -->
-    <section class="mb-10">
+    <section class="mb-8">
         <form method="GET" action="{% url 'search_discogs' %}" class="flex gap-2">
-            <input type="text" name="query" value="{{ query }}" placeholder="Search albums..." 
-                   class="flex-grow p-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <input type="text" name="query" value="{{ query|default:'' }}" placeholder="Search albums..."
+                   class="ring-2 ring-gray-300 bg-white flex-grow p-3 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none">
             <button type="submit" 
                     class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                 Search
@@ -38,7 +38,13 @@
 
     <!-- Search Results -->
     <section class="mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Results for "{{ query }}"</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+            {% if results %}
+                Found {{ results|length }} results for "{{ query }}"
+            {% else %}
+                No results found
+            {% endif %}
+        </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for item in results %}
                 <div class="bg-white rounded-lg shadow hover:shadow-xl transition p-4 flex flex-col">
@@ -60,7 +66,7 @@
 </a>
                 </div>
             {% empty %}
-                <p>No results found.</p>
+                <p>Try searching an album</p>
             {% endfor %}
         </div>
     </section>
