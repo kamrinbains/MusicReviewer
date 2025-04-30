@@ -105,3 +105,8 @@ ________________________________________________________________________________
 - Need to make a login page and maybe account page for details on there account (if they want to change their email or password for example)
 - Need to create the model for users in Django and then brainstorm how we want to save reviews and display them to other users
 _______________________________________________________________________________________
+4/30 Nick
+Created the reviews model to store from user
+-added login and account, but need to make it login from the get-go like chess site
+-made the edit_review.html form for updating submitted reviews
+- Some extra features in it like highest rated review and such, I need to polish it and go back I'll do it a bit later
