@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% load formify %}
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+    {% form_tag form action=request.path css_class="space-y-4" %}
+    {% csrf_token %}
+    {% render_form form %}
+    {% render_submit text="Create Account" css_class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4" %}
+    {% endform_tag %}
+    <a href="{% url 'login' %}"
+       class="mt-4 block text-center text-blue-600 hover:underline">
+        Already have an account? Log in here
+    </a>
+</div>
+{% endblock %}

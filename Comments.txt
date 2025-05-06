@@ -110,3 +110,30 @@ Created the reviews model to store from user
 -added login and account, but need to make it login from the get-go like chess site
 -made the edit_review.html form for updating submitted reviews
 - Some extra features in it like highest rated review and such, I need to polish it and go back I'll do it a bit later
+_______________________________________________________________________________________
+5/5 Kamrin
+- Changed links on the account button in navbar
+- Editing styling of login page and creating sign up page
+- Added django-formify so we can make better looking forms (ex: login / signup) 
+	- https://django-formify.readthedocs.io/en/latest/index.html
+- Updated forms on login and signup pages
+- Had to change settings.py Templates
+	- 'APP_DIRS': False,
+- Fixed logout button
+- Added if statements in account.html
+- Fixed an error happening with writing reviews
+- Deleted the EXTRA view:
+	@login_required
+	def account(request):
+
+- Important things to finish:
+	- Delete review
+	- Edit review
+- Need to make a way to view other peoples reviews (if it isnt way too complicated)
+- I will add the implementation for Contact Us page tomorrow
+- Need a name for the site
+- Also need to fix the footer to make it stuck to the absolute bottom of the page (ill work on it tmrw)
+- Need to look more into the search page, few things:
+	- I might add in something where users can search by artist or genre (maybe)
+	- It seems that the artist and album aren't being correctly separated when queried from discogs
+_______________________________________________________________________________________

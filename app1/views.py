@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import requests
 from .models import Review
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 
@@ -137,6 +137,12 @@ def delete_review(request, review_id):
     review.delete()
     return redirect('account')
 
-@login_required
-def account(request):
-    return render(request, 'account.html')
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})

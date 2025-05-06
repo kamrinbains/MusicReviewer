@@ -22,12 +22,12 @@
             <a href="{% url 'contact' %}" class="hover:underline">Contact</a>
 
             {% if user.is_authenticated %}
-            <a href="/"
+            <a href="{% url 'account' %}"
                class="ml-4 p-1 pb-0 bg-white text-blue-600 rounded hover:bg-gray-200">
                 <ion-icon name="person-circle-outline" class="size-8"></ion-icon>
             </a>
             {% else %}
-            <a href="/"
+            <a href="{% url 'login' %}"
                class="ml-4 p-1 pb-0 bg-white text-blue-600 rounded hover:bg-gray-200">
                 <ion-icon name="person-circle" class="size-8"></ion-icon>
             </a>
