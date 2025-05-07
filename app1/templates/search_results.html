@@ -41,32 +41,37 @@
         <h2 class="text-3xl font-bold text-gray-800 mb-6">
             {% if results %}
                 Found {{ results|length }} results for "{{ query }}"
-            {% else %}
-                No results found
             {% endif %}
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for item in results %}
                 <div class="bg-white rounded-lg shadow hover:shadow-xl transition p-4 flex flex-col">
                     {% if item.thumb %}
-                        <img src="{{ item.thumb }}" alt="{{ item.title }}" class="rounded mb-4">
+                        <img src="{{ item.thumb }}" alt="{{ item.album_title }}" class="rounded mb-4">
                     {% else %}
                         <div class="bg-gray-200 h-48 rounded mb-4 flex items-center justify-center text-gray-500">
                             No Image
                         </div>
                     {% endif %}
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">{{ item.title }}</h3>
-                    <p class="text-gray-600 text-sm mb-2">{{ item.year|default:"Unknown Year" }}</p>
-                    <p class="text-gray-500 text-xs">{{ item.genre|join:", " }}</p>
+
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">{{ item.album_title }}</h3>
+                    <p class="text-gray-600 text-sm mb-2">By {{ item.artist|default:"Unknown Artist" }}</p>
+
+                    {% if item.year %}
+                        <p class="text-gray-600 text-sm mb-2">{{ item.year }}</p>
+                    {% endif %}
+                    {% if item.genre %}
+                        <p class="text-gray-500 text-xs">{{ item.genre|join:", " }}</p>
+                    {% endif %}
 
                     <!-- Review Button (Placeholder) -->
-                    <a href="{% url 'review' %}?album={{ item.title|urlencode }}&artist={{ item.artist|first|urlencode }}"
-   class="mt-auto bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg font-semibold mt-4 transition">
-    Write a Review
-</a>
+                    <a href="{% url 'review' %}?album={{ item.album_title|urlencode }}&artist={{ item.artist|urlencode }}"
+                        class="mt-auto bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg font-semibold mt-4 transition">
+                            Write a Review
+                    </a>
                 </div>
             {% empty %}
-                <p>Try searching an album</p>
+                <p>Try searching an album...</p>
             {% endfor %}
         </div>
     </section>

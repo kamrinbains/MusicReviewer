@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import requests
 from .models import Review
 from django.contrib.auth import login, logout, authenticate
@@ -31,12 +31,27 @@ def search_discogs(request):
         response = requests.get(url, params=params)
         if response.status_code == 200:
             data = response.json()
-            results = data.get('results', [])
-
+            raw = data.get('results', [])
+            for item in raw:
+                title = item.get('title', '')
+                if ' - ' in title:
+                    artist, album = title.split(' - ', 1)
+                else:
+                    artist, album = '', title
+                results.append({
+                    'id': item['id'],
+                    'artist': artist,
+                    'album_title': album,
+                    'thumb': item.get('thumb'),
+                    'resource_url': item.get('resource_url'),
+                })
     return render(request, 'search_results.html', {'results': results, 'query': query})
 
 @login_required
 def review(request):
+    album_title  = request.GET.get('album',  'Unknown Album')
+    album_artist = request.GET.get('artist', 'Unknown Artist')
+
     if request.method == 'POST':
         album_title = request.POST.get('album_title')
         album_artist = request.POST.get('album_artist')
@@ -52,19 +67,11 @@ def review(request):
             review_text=review_text
         )
 
-        return render(request, 'review.html', {
-            'album_title': album_title,
-            'album_artist': album_artist,
-            'submitted': True
-        })
-
-    album_title = request.GET.get('album', 'Unknown Album')
-    album_artist = request.GET.get('artist', 'Unknown Artist')
+        return redirect('account')
 
     return render(request, 'review.html', {
         'album_title': album_title,
         'album_artist': album_artist,
-        'submitted': False
     })
 
 @login_required
@@ -122,6 +129,7 @@ def login_view(request):
 @login_required
 def edit_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
+    choices = [5, 4, 3, 2, 1]
 
     if request.method == 'POST':
         review.rating = int(request.POST.get('rating'))
@@ -129,13 +137,15 @@ def edit_review(request, review_id):
         review.save()
         return redirect('account')
 
-    return render(request, 'edit_review.html', {'review': review})
+    return render(request, 'edit_review.html', {'review': review, 'rating_choices': choices,})
 
 @login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
-    review.delete()
-    return redirect('account')
+    if request.method == 'POST':
+        review.delete()
+        return redirect('account')
+    return render(request, 'confirm_delete.html', {'review': review})
 
 def signup(request):
     if request.method == 'POST':

@@ -137,3 +137,22 @@ ________________________________________________________________________________
 	- I might add in something where users can search by artist or genre (maybe)
 	- It seems that the artist and album aren't being correctly separated when queried from discogs
 _______________________________________________________________________________________
+5/6 Kamrin
+- Changed alot of stuff
+- Fixed footer so it stays at the bottom of the page
+- Finished edit review and delete review
+- Fixed error where the Artist name and Album title weren't being split, so now when searching an album everything looks right
+- Added confirm_delete.html for a better confirmation page for deleting a review
+- Fixed a bunch of UX/UI stuff so it looks a bit better
+
+Important to know
+- I added to the search_discogs view, so now the data is cleaned when returned and we have the album name and artist name separated before being passed back to search results
+
+Next steps:
+- Come up with a site name -> Update site name, and create an email so I can do the contact page
+- Add functionality to see other peoples reviews on albums
+	- My thoughts on that, i dont think it will be too hard to implement and will prob do it tmrw, but I am thinking that I am then going to move the write a review button. Maybe change the button on search results so it takes you to a view page of the album and it shows existing reviews and next to it will be the write a review button
+- Then I will look into adding different search queries but it might be a bit complicated as I implemented the data cleaning and I don't know if I might have to change it for different search queries
+
+- Last we will have to get google cloud working and whatever load balancers he talked about previously
+_______________________________________________________________________________________
