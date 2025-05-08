@@ -156,3 +156,24 @@ Next steps:
 
 - Last we will have to get google cloud working and whatever load balancers he talked about previously
 _______________________________________________________________________________________
+5/8 Kamrin
+- Changed search results button (Write a review) -> Reviews and it shows all users reviews for that album (by the specific artist)
+- Had to add the page where it would show other users reviews of that album (must be logged in to see reviews)
+- Added pagination to the serach results, so now it shows more than the limit of 50 previously
+- album_reviews page has pagination as well so it has good balance of how many items can be shown
+	- search 'Views' by drake to see an example of the pagination for the reviews (i made 12 reviews, 10 max per page)
+
+- On account.html, if you have an existing review, all you have to do is click on the Album Card component and it will take you directly to all the album reviews
+
+
+- Last thing I might add, different search filters so you can search by artist, genre, etc (maybe depending on timing)
+- Only way to add a review is by going to search an album -> look at all reviews -> click write a review button
+
+- Also, changed the model Review, so now it saves the album thumbnails (needed for account.html)
+
+Next steps:
+- Site name -> Update site name on header and footer, create email for contact page
+- A delete account button would be nice
+- Update home page
+- Get it running on GCP
+_______________________________________________________________________________________

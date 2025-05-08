@@ -24,28 +24,41 @@
         </div>
     {% endif %}
 
-    <p class="mb-6">Here are the reviews you've submitted:</p>
+    <p class="mb-6 border-y p-2">Here are the reviews you've submitted:</p>
 
     {% if user_reviews %}
         <div class="space-y-6">
             {% for review in user_reviews %}
                 <div class="border-b pb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">{{ review.album_title }}</h2>
-                    <p class="text-sm text-gray-600 mb-1">by {{ review.album_artist }}</p>
+                    <a class="inline-flex items-center gap-4 mb-2 bg-gray-100 rounded-lg p-2 max-w-max shadow hover:shadow-lg transition overflow-hidden"
+                    href="{% url 'album_reviews' %}?album_title={{ review.album_title|urlencode }}&album_artist={{ review.album_artist|urlencode }}&thumb={{ review.thumb_url|urlencode }}"
+                    >
+                        {% if review.thumb_url %}
+                            <img src="{{ review.thumb_url }}" alt="Album Cover" class="w-16 h-16 rounded">
+                        {% else %}
+                            <div class="w-16 h-16 bg-gray-200 flex items-center justify-center rounded">
+                                <span class="text-gray-500 text-center">No Image</span>
+                            </div>
+                        {% endif %}
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-xl font-semibold text-gray-800">{{ review.album_title }}</h2>
+                            <p class="text-sm text-gray-600 mb-1">by {{ review.album_artist }}</p>
+                        </div>
+                    </a>
                     <p class="text-yellow-500 font-semibold">Rating: {{ review.rating }}/5</p>
                     <p class="mt-2 text-gray-700">{{ review.review_text }}</p>
                     <p class="text-sm text-gray-400 mt-1">Posted on {{ review.submitted_at|date:"F j, Y, g:i a" }}</p>
-<div class="flex gap-4 mt-2">
-    <a href="{% url 'edit_review' review.id %}" class="text-blue-600 hover:underline">Edit</a>
-    <a href="{% url 'delete_review' review.id %}" class="text-red-600 hover:underline">
-        Delete
-    </a>
-</div>
+                    <div class="flex gap-4 mt-2">
+                        <a href="{% url 'edit_review' review.id %}" class="text-blue-600 hover:underline">Edit</a>
+                        <a href="{% url 'delete_review' review.id %}" class="text-red-600 hover:underline">
+                            Delete
+                        </a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-gray-600">You haven't submitted any reviews yet.</p>
+        <p class="text-gray-600">You haven't submitted any reviews yet</p>
     {% endif %}
 
     <div class="flex justify-end mt-2">

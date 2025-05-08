@@ -27,6 +27,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('review/', views.review, name='review'),
+    path('reviews/', views.album_reviews, name='album_reviews'),
     path('login/', views.login_view, name='login'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
     path('signup/', views.signup, name='signup'),

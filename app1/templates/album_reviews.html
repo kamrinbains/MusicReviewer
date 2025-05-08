@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Reviews for {{ album_title }}{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto mt-10 space-y-6">
+
+    <!-- Album Header Card -->
+    <div class="flex items-center bg-white rounded-lg shadow-md overflow-hidden">
+        {% if thumb %}
+        <img src="{{ thumb }}" alt="{{ album_title }} cover"
+             class="w-32 h-32 object-cover">
+        {% else %}
+        <div class="w-32 h-32 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500">No Image</span>
+        </div>
+        {% endif %}
+
+        <div class="flex-1 p-4">
+            <h1 class="text-2xl font-bold text-gray-900">{{ album_title }}</h1>
+            <p class="text-gray-600">by {{ album_artist }}</p>
+        </div>
+
+        {# Average rating badge #}
+        <div class="p-4">
+            <div class="text-center">
+                <p class="text-gray-500 text-sm">Average Rating</p>
+                <p class="text-xl font-semibold text-yellow-500">
+                    {% if average_rating == 0 %}
+                    ~/5
+                    {% else %}
+                    {{ average_rating }}/5.0
+                    {% endif %}
+                </p>
+                <div class="text-center mt-2">
+                    <a href="{% url 'review' %}?album_title={{ album_title|urlencode }}&album_artist={{ album_artist|urlencode }}&thumb={{ thumb|urlencode }}"
+                       class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                        Write Your Review
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews List -->
+    {% if page_obj.object_list %}
+    <div class="space-y-4">
+        {% for review in page_obj.object_list %}
+        <div class="p-4 bg-white rounded-lg shadow-sm">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-semibold text-gray-800">{{ review.user.username }}</span>
+                <span class="text-sm text-gray-500">
+              {{ review.submitted_at|date:"M j, Y" }}
+            </span>
+            </div>
+            <p class="text-yellow-500 font-semibold">
+                Rating: {{ review.rating }}/5
+            </p>
+            <p class="mt-1 text-gray-700">{{ review.review_text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center items-center space-x-2 mt-6">
+        {% if page_obj.has_previous %}
+        <a href="?album_title={{ album_title|urlencode }}&album_artist={{ album_artist|urlencode }}&thumb={{ thumb|urlencode }}&page={{ page_obj.previous_page_number }}"
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+            « Previous
+        </a>
+        {% endif %}
+
+        <span class="px-3 py-1">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?album_title={{ album_title|urlencode }}&album_artist={{ album_artist|urlencode }}&thumb={{ thumb|urlencode }}&page={{ page_obj.next_page_number }}"
+           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+            Next »
+        </a>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <p class="text-center text-gray-600">No reviews yet for this album</p>
+    {% endif %}
+
+</div>
+{% endblock %}

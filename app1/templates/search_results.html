@@ -65,9 +65,11 @@
                     {% endif %}
 
                     <!-- Review Button (Placeholder) -->
-                    <a href="{% url 'review' %}?album={{ item.album_title|urlencode }}&artist={{ item.artist|urlencode }}"
-                        class="mt-auto bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg font-semibold mt-4 transition">
-                            Write a Review
+                    <a
+                            href="{% url 'album_reviews' %}?album_title={{ item.album_title|urlencode }}&album_artist={{ item.artist|urlencode }}&thumb={{ item.thumb|urlencode }}"
+                            class="mt-auto bg-green-500 hover:bg-green-600 text-white text-center py-2 rounded-lg font-semibold mt-4 transition"
+                    >
+                        Reviews
                     </a>
                 </div>
             {% empty %}
@@ -75,6 +77,34 @@
             {% endfor %}
         </div>
     </section>
+    {% if pagination.pages|default:0 > 1 %}
+    <div class="flex justify-center items-center space-x-2 mt-6">
+        {# Previous page link #}
+        {% if pagination.page > 1 %}
+        <a
+                href="?query={{ query|urlencode }}&page={{ pagination.page|add:-1 }}&per_page={{ pagination.per_page }}"
+                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        >
+            « Previous
+        </a>
+        {% endif %}
+
+        {# Current page indicator #}
+        <span class="px-3 py-1 text-gray-700">
+      Page {{ pagination.page }} of {{ pagination.pages }}
+    </span>
+
+        {# Next page link #}
+        {% if pagination.page < pagination.pages %}
+        <a
+                href="?query={{ query|urlencode }}&page={{ pagination.page|add:1 }}&per_page={{ pagination.per_page }}"
+                class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+        >
+            Next »
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
 
 </div>
 {% endblock %}

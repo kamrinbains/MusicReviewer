@@ -1,10 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import requests
-from .models import Review
-from django.contrib.auth import login, logout, authenticate
+
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
+
+from django.core.paginator import Paginator
+
+from .models import Review
+from django.db.models import Avg
+
+import requests
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -18,8 +26,12 @@ def contact(request):
     return render(request, 'contact.html', {'sent': False})
 
 def search_discogs(request):
-    query = request.GET.get('query')
+    query = request.GET.get('query', '')
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 50)
+
     results = []
+    pagination = {}
 
     if query:
         url = 'https://api.discogs.com/database/search'
@@ -27,11 +39,14 @@ def search_discogs(request):
             'q': query,
             'token': 'qxGXsNAYYWpkdEHvlGdGmCsDmFtHUnjJIVaCRKpz',
             'type': 'release',
+            'page': page,
+            'per_page': per_page,
         }
         response = requests.get(url, params=params)
         if response.status_code == 200:
             data = response.json()
             raw = data.get('results', [])
+            pagination = data.get('pagination', {})
             for item in raw:
                 title = item.get('title', '')
                 if ' - ' in title:
@@ -45,24 +60,31 @@ def search_discogs(request):
                     'thumb': item.get('thumb'),
                     'resource_url': item.get('resource_url'),
                 })
-    return render(request, 'search_results.html', {'results': results, 'query': query})
+
+    return render(request, 'search_results.html', {
+        'results': results,
+        'query': query,
+        'pagination': pagination,
+    })
 
 @login_required
 def review(request):
-    album_title  = request.GET.get('album',  'Unknown Album')
-    album_artist = request.GET.get('artist', 'Unknown Artist')
+    album_title  = request.GET.get('album_title',  'Unknown Album')
+    album_artist = request.GET.get('album_artist', 'Unknown Artist')
+    thumb = request.GET.get('thumb', '')
 
     if request.method == 'POST':
         album_title = request.POST.get('album_title')
         album_artist = request.POST.get('album_artist')
+        thumb_url = request.POST.get('thumb_url', '')
         rating = int(request.POST.get('rating'))
         review_text = request.POST.get('review_text')
 
-        # Save review to database, tied to the logged-in user
         Review.objects.create(
             user=request.user,
             album_title=album_title,
             album_artist=album_artist,
+            thumb_url=thumb_url,
             rating=rating,
             review_text=review_text
         )
@@ -72,6 +94,7 @@ def review(request):
     return render(request, 'review.html', {
         'album_title': album_title,
         'album_artist': album_artist,
+        'thumb': thumb,
     })
 
 @login_required
@@ -89,31 +112,7 @@ def account(request):
 
     return render(request, 'account.html', context)
 
-def album_reviews(request):
-    album_title = request.GET.get('album')
-    album_artist = request.GET.get('artist')
-    album_thumb = request.GET.get('thumb')
 
-    if not album_title:
-        return render(request, 'album_reviews.html', {'reviews': [], 'album_title': None})
-
-    filtered_reviews = Review.objects.filter(
-        album_title=album_title,
-        album_artist=album_artist
-    ).order_by('-submitted_at')
-
-    context = {
-        'album_title': album_title,
-        'album_artist': album_artist,
-        'album_thumb': album_thumb,
-        'reviews': filtered_reviews
-    }
-
-    return render(request, 'album_reviews.html', context)
-
-def reviews_list(request):
-    all_reviews = Review.objects.all().order_by('-submitted_at')
-    return render(request, 'reviews_list.html', {'reviews': all_reviews})
 
 def login_view(request):
     if request.method == 'POST':
@@ -146,6 +145,33 @@ def delete_review(request, review_id):
         review.delete()
         return redirect('account')
     return render(request, 'confirm_delete.html', {'review': review})
+
+
+@login_required
+def album_reviews(request):
+    album_title  = request.GET.get('album_title', '')
+    album_artist = request.GET.get('album_artist', '')
+    thumb = request.GET.get('thumb', '')
+
+    reviews_qs = Review.objects.filter(
+        album_title=album_title,
+        album_artist=album_artist
+    ).order_by('-submitted_at')
+
+    avg = reviews_qs.aggregate(average=Avg('rating'))['average'] or 0
+    avg = round(avg, 1)
+
+    paginator = Paginator(reviews_qs, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'album_reviews.html', {
+        'album_title': album_title,
+        'album_artist': album_artist,
+        'thumb': thumb,
+        'page_obj': page_obj,
+        'average_rating': avg,
+    })
 
 def signup(request):
     if request.method == 'POST':

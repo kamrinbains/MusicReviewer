@@ -6,6 +6,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     album_title = models.CharField(max_length=255)
     album_artist = models.CharField(max_length=255)
+    thumb_url = models.URLField(max_length=500, blank=True)
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
     review_text = models.TextField()
     submitted_at = models.DateTimeField(auto_now_add=True)
