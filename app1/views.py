@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
+from django.core.mail import send_mail
 
 from django.core.paginator import Paginator
 
@@ -22,7 +23,21 @@ def about(request):
 
 def contact(request):
     if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email') or 'anonymous@liner-notes.com'
+        message = request.POST.get('message')
+
+        full_message = f"From: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        send_mail(
+            subject=f'New Contact Message from {name}',
+            message=full_message,
+            from_email='linernotecontact@gmail.com',  # matches your EMAIL_HOST_USER
+            recipient_list=['linernotecontact@gmail.com'],
+        )
+
         return render(request, 'contact.html', {'sent': True})
+
     return render(request, 'contact.html', {'sent': False})
 
 def search_discogs(request):

@@ -177,3 +177,10 @@ Next steps:
 - Update home page
 - Get it running on GCP
 _______________________________________________________________________________________
+Nick 5/8
+Again, thank you a ton for your help, I should be out of the hospital towards the afternoon tomorrow, my kidneys were near failure
+- regardless, I decided on the name "LinerNotes" as the website name, you can google it but its the album notes left on vinyl and CD'
+- Also I made the username for the support email and made it a placeholder, heres the contact info:
+linernotecontact@gmail.com , password: Contact$#Sn9e82!!
+the contact page fully works^ test it out urself
+- next aka tomorrow i will overhaul the stylization on the page and get the tarball deployment working.

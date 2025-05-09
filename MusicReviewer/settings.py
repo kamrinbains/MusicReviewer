@@ -139,3 +139,12 @@ DISCOGS_TOKEN = 'qxGXsNAYYWpkdEHvlGdGmCsDmFtHUnjJIVaCRKpz'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/account/'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'linernotecontact@gmail.com'
+EMAIL_HOST_PASSWORD = 'awwn ugyz kyeu yhdy'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
