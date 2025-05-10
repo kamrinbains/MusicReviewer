@@ -13,3 +13,9 @@ smmap==5.0.1
 soupsieve==2.6
 sqlparse==0.5.3
 urllib3==2.3.0
+django-browser-reload
+django-viewcomponent
+django-formify
+requests
+psycopg2-binary
+mysqlclient
