@@ -9,17 +9,23 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
 <!-- Navigation -->
-<nav class="bg-blue-600 text-white p-4">
+<nav style="background-color: #800000;" class="text-black p-4">
     <div class="container mx-auto flex items-center justify-between">
         <!-- Left: Site title -->
-        <a href="{% url 'index' %}" class="text-xl font-bold">My Site</a>
+        <a href="{% url 'index' %}">
+  <div class="h-12 w-32">
+  <img src="{% static 'images/Linernoteslogo.png' %}" 
+       alt="Liner Notes Logo" 
+       class="h-full w-auto object-contain max-w-full">
+</div>
+</a>
 
         <!-- Right: Nav links + account/login -->
         <div class="flex items-center space-x-4">
-            <a href="{% url 'index' %}" class="md:px-4 px-2 py-1 bg-transparent hover:bg-blue-700 rounded-lg ring-1 ring-transparent hover:ring-white">Home</a>
-            <a href="{% url 'about' %}" class="md:px-4 px-2 py-1 bg-transparent hover:bg-blue-700 rounded-lg ring-1 ring-transparent hover:ring-white">About</a>
-            <a href="{% url 'search_discogs' %}" class="md:px-4 px-2 py-1 bg-transparent hover:bg-blue-700 rounded-lg ring-1 ring-transparent hover:ring-white">Search</a>
-            <a href="{% url 'contact' %}" class="md:px-4 px-2 py-1 bg-transparent hover:bg-blue-700 rounded-lg ring-1 ring-transparent hover:ring-white">Contact</a>
+            <a href="{% url 'index' %}" class="md:px-4 px-2 py-1 text-white hover:text-[#FFFDD0] transition-colors duration-200">Home</a>
+            <a href="{% url 'about' %}" class="md:px-4 px-2 py-1 text-white hover:text-[#FFFDD0] transition-colors duration-200">About</a>
+            <a href="{% url 'search_discogs' %}" class="md:px-4 px-2 py-1 text-white hover:text-[#FFFDD0] transition-colors duration-200">Search</a>
+            <a href="{% url 'contact' %}" class="md:px-4 px-2 py-1 text-white hover:text-[#FFFDD0] transition-colors duration-200">Contact</a>
 
             {% if user.is_authenticated %}
             <a href="{% url 'account' %}"
@@ -50,7 +56,7 @@
 <!-- Footer -->
 <footer class="bg-gray-800 text-white p-4 mt-4">
     <div class="container mx-auto">
-        <p class="text-center">© 2025 My Django Site</p>
+        <p class="text-center">© 2025 Liner-Notes</p>
     </div>
 </footer>
 <!-- Scripts -->

@@ -13,14 +13,32 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="bg-gray-100 p-4 rounded">
-            <h2 class="font-semibold text-xl">Top Reviews</h2>
-            <p>See what albums are trending right now.</p>
+            <h2 class="font-semibold text-xl">Try out the search-bar</h2>
+            <p>Search and find your favorites!</p>
         </div>
 
         <div class="bg-gray-100 p-4 rounded">
-            <h2 class="font-semibold text-xl">Browse Genres</h2>
-            <p>Explore albums by your favorite genres.</p>
+            <h2 class="font-semibold text-xl">Write Reviews</h2>
+            <p>Leave reviews on your favorite albums!</p>
         </div>
     </div>
+
+<h2 class="text-3xl font-bold text-gray-900 mt-10 mb-6">Featured Albums</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    {% for album in featured_albums %}
+        <div class="bg-gradient-to-r from-red-500 to-red-500 text-white p-6 rounded-xl shadow-md">
+            {% if album.thumb %}
+                <img src="{{ album.thumb }}" alt="{{ album.title }}" class="mb-4 rounded">
+            {% endif %}
+            <h3 class="text-xl font-bold mb-2">{{ album.title }}</h3>
+            <p>{{ album.description }}</p>
+<a href="{% url 'review' %}?title={{ album.title|urlencode }}" 
+   class="mt-4 inline-block bg-white text-blue-600 font-semibold py-2 px-4 rounded hover:bg-gray-100">
+   Review
+</a>
+        </div>
+    {% endfor %}
+</div>
+
 </div>
 {% endblock %}

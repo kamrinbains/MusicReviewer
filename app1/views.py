@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.core.mail import send_mail
+from django.contrib.auth import logout
 
 from django.core.paginator import Paginator
 
@@ -12,11 +13,34 @@ from .models import Review
 from django.db.models import Avg
 
 import requests
-
+import random
 
 
 def index(request):
-    return render(request, 'index.html')
+    genres = ["rock", "metal", "punk", "jazz", "pop", "hip-hop", "electronic"]
+    featured_albums = []
+
+    for _ in range(3):
+        genre = random.choice(genres)
+        params = {
+            'token': 'qxGXsNAYYWpkdEHvlGdGmCsDmFtHUnjJIVaCRKpz',
+            'genre': genre,
+            'type': 'release',
+            'per_page': 50,
+            'page': random.randint(1, 10)
+        }
+        response = requests.get('https://api.discogs.com/database/search', params=params)
+        results = response.json().get('results', [])
+        if results:
+            album = random.choice(results)
+            featured_albums.append({
+                'title': album.get('title'),
+                'thumb': album.get('thumb'),
+                'genre': album.get('genre', ['Unknown'])[0],
+                'description': f"A featured release in {genre}.",
+            })
+
+    return render(request, 'index.html', {'featured_albums': featured_albums})
 
 def about(request):
     return render(request, 'about.html')
@@ -76,10 +100,36 @@ def search_discogs(request):
                     'resource_url': item.get('resource_url'),
                 })
 
+
+    genres = ["rock", "metal", "punk", "jazz", "pop", "hip-hop", "electronic"]
+    featured_albums = []
+    attempts = 0
+    while len(featured_albums) < 3 and attempts < 10:
+        genre = random.choice(genres)
+        params = {
+            'token': 'qxGXsNAYYWpkdEHvlGdGmCsDmFtHUnjJIVaCRKpz',
+            'genre': genre,
+            'type': 'release',
+            'per_page': 50,
+            'page': random.randint(1, 10)
+        }
+        featured_response = requests.get('https://api.discogs.com/database/search', params=params)
+        genre_results = featured_response.json().get('results', [])
+        if genre_results:
+            album = random.choice(genre_results)
+            featured_albums.append({
+                'title': album.get('title'),
+                'thumb': album.get('thumb'),
+                'genre': album.get('genre', [genre])[0],
+                'description': f"A featured release in {genre}.",
+            })
+
     return render(request, 'search_results.html', {
+
         'results': results,
         'query': query,
         'pagination': pagination,
+        'featured_albums': featured_albums,
     })
 
 @login_required
@@ -142,7 +192,8 @@ def login_view(request):
 
 @login_required
 def edit_review(request, review_id):
-    review = get_object_or_404(Review, id=review_id, user=request.user)
+    review = get_object_or_404(Review, id=review_id, user
+    =request.user)
     choices = [5, 4, 3, 2, 1]
 
     if request.method == 'POST':
@@ -197,3 +248,12 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect('index')  # or 'login' if you prefer
+    return redirect('account')

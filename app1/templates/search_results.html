@@ -5,24 +5,28 @@
 {% block content %}
 <div class="max-w-7xl mx-auto p-6">
     <!-- Featured Albums Header -->
-    <section class="mb-10">
-        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Featured Albums</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Example featured albums -->
-            <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-2">Album One</h2>
-                <p>Classic masterpiece of progressive rock.</p>
+    
+<section class="mb-10">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Featured Albums</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for album in featured_albums %}
+            <div class="bg-gradient-to-r from-red-400 to-red-500 text-white p-6 rounded-lg shadow-lg">
+                {% if album.thumb %}
+                    <img src="{{ album.thumb }}" alt="{{ album.title }}" class="mb-4 rounded">
+                {% endif %}
+                <h2 class="text-2xl font-semibold mb-2">{{ album.title }}</h2>
+                <p class="text-sm italic mb-1">Genre: {{ album.genre }}</p>
+                <p>{{ album.description }}</p>
+<a href="{% url 'review' %}?title={{ album.title|urlencode }}" 
+   class="mt-4 inline-block bg-white text-blue-600 font-semibold py-2 px-4 rounded hover:bg-gray-100">
+   Review
+</a>
+
             </div>
-            <div class="bg-gradient-to-r from-green-400 to-teal-500 text-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-2">Album Two</h2>
-                <p>Innovative sounds in modern metalcore.</p>
-            </div>
-            <div class="bg-gradient-to-r from-pink-400 to-red-500 text-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold mb-2">Album Three</h2>
-                <p>An emotional indie folk journey.</p>
-            </div>
-        </div>
-    </section>
+        {% endfor %}
+    </div>
+</section>
+
 
     <!-- Search Form -->
     <section class="mb-8">

@@ -34,4 +34,5 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('review/<int:review_id>/edit/', views.edit_review, name='edit_review'),
     path('review/<int:review_id>/delete/', views.delete_review, name='delete_review'),
+    path('account/delete/', views.delete_account, name='delete_account'),
 ]

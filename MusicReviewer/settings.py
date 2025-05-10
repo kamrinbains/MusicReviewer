@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-z^0_91+vt@j3!u0f*y51+hq%l7hf^(90je7qyep6n!*ew$(p&b
 # This is set TRUE for browser auto reload!!!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+      'https://localhost:8080',
+      'http://localhost:8080',
+]
 
 
 # Application definition
